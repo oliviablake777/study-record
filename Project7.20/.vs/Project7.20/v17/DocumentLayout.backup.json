@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\Project7.20\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6EED7FA6-9803-4CE1-AA6A-3C0049F8E5BC}|Project7.20\\Project7.20.vcxproj|E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\Project7.20\\Project7.20\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6EED7FA6-9803-4CE1-AA6A-3C0049F8E5BC}|Project7.20\\Project7.20.vcxproj|solutionrelative:Project7.20\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "\u6E90.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\Project7.20\\Project7.20\\\u6E90.c",
+              "RelativeDocumentMoniker": "Project7.20\\\u6E90.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\Project7.20\\Project7.20\\\u6E90.c*",
+              "RelativeToolTip": "Project7.20\\\u6E90.c*",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAHQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-07-20T09:40:22.422Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

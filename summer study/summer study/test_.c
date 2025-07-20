@@ -178,7 +178,7 @@ int main()
 		printf("%d ", arr[i]);
 	}
 	return 0;
-}*/
+}
 
 
 int main()
@@ -196,7 +196,7 @@ int main()
 		printf("\n");
 	}
 	return 0;
-}
+}*/
 
 /*int main()
 {
@@ -216,7 +216,41 @@ int main()
 		printf("\n");
 	}
 	return 0;
+}
+
+void test(int (*p)[5], int r, int c)
+{
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			printf("%d ", *(*(p + i) + j));
+		}
+		printf("\n");
+	}
+}
+int main()
+{
+	int arr[3][5] = { {1,2,3,4,5}, {2,3,4,5,6},{3,4,5,6,7} };
+	test(arr, 3, 5);
+	return 0;
+
+}
+
+int add(int x, int y)
+{
+	return x + y;
+}
+int main()
+{
+	int (*pf1)(int, int) = add;
+	int (*pf3)(int, int) = &add;
+	printf("%d ", (*pf1)(1, 2));
+	printf("%d ", pf3(1, 5));
+	return 0;
 }*/
+
+
 
 
 
