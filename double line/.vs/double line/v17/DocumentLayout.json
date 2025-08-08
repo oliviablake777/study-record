@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\double line\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{26EB6E36-30DB-40A9-A9D2-B661043760D4}|double line\\double line.vcxproj|E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\double line\\double line\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{26EB6E36-30DB-40A9-A9D2-B661043760D4}|double line\\double line.vcxproj|solutionrelative:double line\\\u6E90.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "\u6E90.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\double line\\double line\\\u6E90.c",
+              "RelativeDocumentMoniker": "double line\\\u6E90.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u5B66\u4E60\\gitte(summer)\\summer-study-c\\double line\\double line\\\u6E90.c",
+              "RelativeToolTip": "double line\\\u6E90.c",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAAG0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-07-29T10:18:04.587Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
