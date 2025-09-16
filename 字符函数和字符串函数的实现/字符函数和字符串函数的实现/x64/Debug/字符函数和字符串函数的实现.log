@@ -1,2 +1,5 @@
 ﻿  test.cpp
-  字符函数和字符串函数的实现.vcxproj -> E:\c语言学习\gitte(summer)\summer-study-c\字符函数和字符串函数的实现\x64\Debug\字符函数和字符串函数的实现.exe
+E:\c语言学习\gitte(summer)\summer-study-c\字符函数和字符串函数的实现\字符函数和字符串函数的实现\test.cpp(227,11): error C2440: “初始化”: 无法从“int *”转换为“char *”
+      E:\c语言学习\gitte(summer)\summer-study-c\字符函数和字符串函数的实现\字符函数和字符串函数的实现\test.cpp(227,11):
+      指向的类型不相关; 转换需要 reinterpret_cast、C 样式强制转换或带圆括号的函数样式强制转换
+  
