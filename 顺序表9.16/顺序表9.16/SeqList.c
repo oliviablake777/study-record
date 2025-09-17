@@ -80,3 +80,39 @@ void SLPopBack(SL* ps)
 	//ps->size--;俩个都可以
 	--ps->size;
 }
+//在指定位置之前插入数据
+void SLInsert(SL* ps, int pos, SLDataType x)
+{
+	assert(ps);
+	assert(pos >= 0 && pos <= ps->size);
+	SLCheckCapacity(ps);
+	for (int i = ps->size; i >pos; i--)
+	{
+		ps->arr[i] = ps->arr[i-1];
+	}
+	ps->arr[pos] = x;
+	ps->size++;
+}
+//指定位置删除数据
+void SLErase(SL* ps, int pos)
+{
+	assert(ps);
+	assert(ps->arr);
+	for (int i = pos; i < ps->size - 1; i++)
+	{
+		ps->arr[i] = ps->arr[i + 1];
+	}
+	ps->size--;
+}
+//查找数据是否存在
+/*int SLFind(SL* ps, SLDataType x)
+{
+	assert(ps);
+	for (int i = 0; i < ps->size; i++)
+	{
+		if (ps->arr[i] == x) {
+			return i;
+		}
+	}
+	return -1;
+}*/
