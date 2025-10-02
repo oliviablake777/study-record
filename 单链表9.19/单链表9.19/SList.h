@@ -2,7 +2,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
-typedef int SLTDataType;
+#include"Contact.h"
+//typedef int SLTDataType;
+typedef PeoInfo SLTDataType;
 typedef struct SlistNode {
 	SLTDataType data;
 	struct SlistNode* next;

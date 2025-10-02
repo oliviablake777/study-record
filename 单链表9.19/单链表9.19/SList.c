@@ -93,7 +93,7 @@ void SLTPopFront(SLTNode** pphead)
 	*pphead = next;
 }
 //查找
-SLTNode* SLTFind(SLTNode* phead, SLTDataType x)
+/*SLTNode* SLTFind(SLTNode* phead, SLTDataType x)
 {
 	SLTNode* pcur = phead;
 	while (pcur)
@@ -106,7 +106,7 @@ SLTNode* SLTFind(SLTNode* phead, SLTDataType x)
 
 	}
 	return NULL;
-}
+}*/
 //在指定位置之前插入数据
 void SLTInsert(SLTNode** pphead, SLTNode* pos, SLTDataType x)
 {
