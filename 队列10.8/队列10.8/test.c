@@ -1,9 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-#include"Queue.h"
-
+#include"MyStack.h"
 int main()
 {
-	Queue q;
+    /*Queue q;
 	QueueInit(&q);
 	QueuePush(&q, 1);
     QueuePush(&q, 2);
@@ -18,7 +17,16 @@ int main()
 		printf("%d ", QueueFront(&q));
 		QueuePop(&q);
 	}
+	printf("\n");*/
+	MyStack* obj=myStackCreate();
+	myStackPush(obj, 1);
+	myStackPush(obj, 2);
+	myStackPush(obj, 3);
+	myStackPush(obj, 4);
+	printf("%d ",myStackTop(obj));
+	myStackPop(obj);
+	printf("%d ", myStackTop(obj));
+	myStackPop(obj);
 	printf("\n");
-
 	return 0;
 }
