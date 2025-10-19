@@ -58,6 +58,7 @@ void AdjustDown(HPDataType* a, int n, int parent)
 		if (child+1<n&& a[child] > a[child+1])
 		{
 			++child;
+			//Swap(&a[child], &a[child + 1]);
 		}
 	   if(a[parent]>a[child]) 
 	   {
