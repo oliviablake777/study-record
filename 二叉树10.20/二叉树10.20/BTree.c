@@ -6,11 +6,11 @@ BTNode* BinaryTreeCreate(BTDataType* a, int* pi)
 {
 	if (a[*pi] == '#')
 	{
-		*pi++;
+		(*pi)++;
 		return NULL;
 	}
 	BTNode* root = (BTNode*)malloc(sizeof(BTNode));
-	root->_data = a[*pi++];
+	root->_data = a[(*pi)++];
 	root->_left = BinaryTreeCreate(a,pi);
 	root->_right = BinaryTreeCreate(a,pi);
 	return root;
@@ -40,6 +40,10 @@ int BinaryTreeLeafSize(BTNode* root)
 {
 	if (root == NULL)
 	{
+		return 0;
+	}
+	if (root->_left==NULL&&root->_right==NULL)
+	{
 		return 1;
 	}
 	return BinaryTreeLeafSize(root->_right) + BinaryTreeLeafSize(root->_left);
@@ -47,11 +51,15 @@ int BinaryTreeLeafSize(BTNode* root)
 // 二叉树第k层节点个数
 int BinaryTreeLevelKSize(BTNode* root, int k)
 {
-	if (--k == 0)
+	if (root == NULL)
+	{
+		return 0;
+	}
+	if (k == 1)
 	{
 		return 1;
 	}
-	return BinaryTreeLevelKSize(root->_left,k) + BinaryTreeLevelKSize(root->_right,k);
+	return BinaryTreeLevelKSize(root->_left,k-1) + BinaryTreeLevelKSize(root->_right,k-1);
 }
 // 二叉树查找值为x的节点
 BTNode* BinaryTreeFind(BTNode* root, BTDataType x)
@@ -84,7 +92,7 @@ void BinaryTreePrevOrder(BTNode* root)
 	{
 		return;
 	}
-	printf("%d", root->_data);
+	printf("%c", root->_data);
 	BinaryTreePrevOrder(root->_left);
 	BinaryTreePrevOrder(root->_right);
 }
@@ -95,9 +103,9 @@ void BinaryTreeInOrder(BTNode* root)
 	{
 		return;
 	}
-	BinaryTreePrevOrder(root->_left);
-	printf("%d", root->_data);
-	BinaryTreePrevOrder(root->_right);
+	BinaryTreeInOrder(root->_left);
+	printf("%c", root->_data);
+	BinaryTreeInOrder(root->_right);
 }
 // 二叉树后序遍历
 void BinaryTreePostOrder(BTNode* root)
@@ -106,17 +114,65 @@ void BinaryTreePostOrder(BTNode* root)
 	{
 		return;
 	}
-	BinaryTreePrevOrder(root->_left);
-	BinaryTreePrevOrder(root->_right);
-	printf("%d", root->_data);
+	BinaryTreePostOrder(root->_left);
+	BinaryTreePostOrder(root->_right);
+	printf("%c", root->_data);
 }
 // 层序遍历
 void BinaryTreeLevelOrder(BTNode* root)
 {
-
+	Queue q;
+	QueueInit(&q);
+	if (root)
+	{
+		QueuePush(&q, root);
+	}
+	while (!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		printf("%c", front->_data);
+		if (front->_left)
+		{
+			QueuePush(&q, front->_left);
+		}
+		if (front->_right)
+		{
+			QueuePush(&q, front->_right);
+		}
+	}
+	QueueDestroy(&q);
 }
 // 判断二叉树是否是完全二叉树
-int BinaryTreeComplete(BTNode* root)
+bool BinaryTreeComplete(BTNode* root)
 {
-
+	Queue q;
+	QueueInit(&q);
+	if (root)
+	{
+		QueuePush(&q, root);
+	}
+	while (!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		if (front == NULL)
+		{
+			break;
+		}
+		QueuePush(&q, front->_left);
+		QueuePush(&q, front->_right);
+	}
+	while (!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		if (front)
+		{
+			QueueDestroy(&q);
+			return false;
+		}
+	}
+	QueueDestroy(&q);
+	return true;
 }
