@@ -9,8 +9,7 @@ void QueueInit(Queue* pq)
 void QueueDestroy(Queue* pq)
 {
 	assert(pq);
-	assert(pq->size);
-	QNode* cur = pq->phead->next;
+	QNode* cur = pq->phead;
 	while(cur)
 	{
 		QNode* next = cur->next;
