@@ -47,10 +47,33 @@ void TestGetMid()
 	int a[] = { 9,1,2,5,7,4,6,3,8 };
 	GetMid(a, 0, 8);
 }
-int main()
+void TestQuickSort2()
 {
 	int a[] = { 9,1,2,5,7,4,6,3,8 };
+	PrintArray(a, sizeof(a) / sizeof(int));
+	QuickSort2(a,0, sizeof(a) / sizeof(int)-1);
+	PrintArray(a, sizeof(a) / sizeof(int));
+}
+void TestMergeSort()
+{
+	int a[] = { 9,1,2,5,7,4,6,3,8 };
+	PrintArray(a, sizeof(a) / sizeof(int));
+	MergeSort(a,sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+}
+void TestCountSort()
+{
+	int a[] = { 9,1,2,5,7,4,6,3,8 };
+	PrintArray(a, sizeof(a) / sizeof(int));
+	CountSort(a, sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+}
+int main()
+{
+	//int a[] = { 9,1,2,5,7,4,6,3,8 };
 	
-	printf("%d", GetMid(a, 0, 8));
+	//printf("%d", GetMid(a, 0, 8));
+	//TestQuickSort2();
+	TestCountSort();
 	return 0;
 }

@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<string.h>
 
 void PrintArray(int* a, int n);
 
@@ -22,3 +23,7 @@ void QuickSort(int* a, int left, int right);
 int GetMid(int* a, int left, int right);
 int PastSort1(int* a, int left, int right);
 int PastSort2(int* a, int left, int right);
+void QuickSort2(int* a, int left, int right);
+void QuickSortNonR(int* a, int left, int right);
+void MergeSort(int* a,int n);
+void CountSort(int* a, int n);
