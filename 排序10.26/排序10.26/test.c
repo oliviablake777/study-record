@@ -68,12 +68,20 @@ void TestCountSort()
 	CountSort(a, sizeof(a) / sizeof(int));
 	PrintArray(a, sizeof(a) / sizeof(int));
 }
+void TestMergeSortNonR()
+{
+	int a[] = { 9,1,2,5,7,4,6,3,8 };
+	PrintArray(a, sizeof(a) / sizeof(int));
+	MergeSortNonR(a, sizeof(a) / sizeof(int));
+	PrintArray(a, sizeof(a) / sizeof(int));
+}
 int main()
 {
 	//int a[] = { 9,1,2,5,7,4,6,3,8 };
 	
 	//printf("%d", GetMid(a, 0, 8));
 	//TestQuickSort2();
-	TestCountSort();
+	//TestCountSort();
+	TestMergeSortNonR();
 	return 0;
 }

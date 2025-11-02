@@ -27,3 +27,4 @@ void QuickSort2(int* a, int left, int right);
 void QuickSortNonR(int* a, int left, int right);
 void MergeSort(int* a,int n);
 void CountSort(int* a, int n);
+void MergeSortNonR(int* a, int n);
