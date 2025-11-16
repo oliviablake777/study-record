@@ -147,63 +147,108 @@ using namespace std;
 //	return 0;
 //}
 
-template<typename T>
-class Stack
-{
-public:
-	Stack(int n = 4)
-		:_array(new T[n])
-		,_size(0)
-		,_capacity(n)
-	{}
-
-	~Stack()
-	{
-		delete[] _array;
-		_array = nullptr;
-		_size = _capacity = 0;
-	}
-
-	void Push(const T& x);
-private:
-	T* _array;
-	size_t _capacity;
-	size_t _size;
-};
-
-template<class T>
-void Stack<T>::Push(const T& x)
-{
-	if (_size == _capacity)
-	{
-		T* tmp = new T[_capacity * 2];
-		memcpy(tmp, _array, sizeof(T) * _size);
-		delete[] _array;
-
-		_array = tmp;
-		_capacity *= 2;
-	}
-
-	_array[_size++] = x;
-}
-
+//template<typename T>
+//class Stack
+//{
+//public:
+//	Stack(int n = 4)
+//		:_array(new T[n])
+//		,_size(0)
+//		,_capacity(n)
+//	{}
+//
+//	~Stack()
+//	{
+//		delete[] _array;
+//		_array = nullptr;
+//		_size = _capacity = 0;
+//	}
+//
+//	void Push(const T& x);
+//private:
+//	T* _array;
+//	size_t _capacity;
+//	size_t _size;
+//};
+//
+//template<class T>
+//void Stack<T>::Push(const T& x)
+//{
+//	if (_size == _capacity)
+//	{
+//		T* tmp = new T[_capacity * 2];
+//		memcpy(tmp, _array, sizeof(T) * _size);
+//		delete[] _array;
+//
+//		_array = tmp;
+//		_capacity *= 2;
+//	}
+//
+//	_array[_size++] = x;
+//}
+//
+//
+//int main()
+//{
+//	// 类模板都是显示实例化
+//	Stack<int> st1; // int
+//	st1.Push(1);
+//	st1.Push(2);
+//	st1.Push(3);
+//
+//	Stack<double> st2; // double
+//	st2.Push(1.1);
+//	st2.Push(1.1);
+//	st2.Push(1.1);
+//
+//	Stack<double>* pst = new Stack<double>;
+//	//...
+//	delete pst;
+//
+//	return 0;
+//}
+//class string
+//{
+//public:
+//	char& operator[](size_t i)
+//	{
+//      assert(i < _size);
+//		return _str[i];
+//	}
+//private:
+//	char* _str;
+//	size_t _size;
+//	size_t _capacity;
+//};
 
 int main()
 {
-	// 类模板都是显示实例化
-	Stack<int> st1; // int
-	st1.Push(1);
-	st1.Push(2);
-	st1.Push(3);
+	string s1;
+	string s2("hello world");
+	string s3(s2);
 
-	Stack<double> st2; // double
-	st2.Push(1.1);
-	st2.Push(1.1);
-	st2.Push(1.1);
+	cout << s1 << endl;
+	cout << s2 << endl;
+	cout << s3 << endl;
 
-	Stack<double>* pst = new Stack<double>;
-	//...
-	delete pst;
+	/*cin >> s1;
+	cout << s1 << endl;*/
+
+	string s4(s2, 6, 5);
+	cout << s4 << endl;
+
+	string s5(s2, 6);
+	cout << s5 << endl;
+
+	string s6("hello world", 5);
+	cout << s6 << endl;
+
+	string s7(10, 'X');
+	cout << s7 << endl;
+
+	/*s6[10];
+	s6[0] = 'x';
+	cout << s6 << endl;*/
 
 	return 0;
 }
