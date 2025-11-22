@@ -2,24 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<windows.h>
 
 // 宏定义：最大元素数量
 #define MAXSIZE 50 
 // 宏定义：数据文件名（请根据您的实际文件路径修改）
 #define DATA_FILE_PATH "E:\\gdpdata.txt" 
 
-// -------- 4. 数据结构设计 --------
-
 // 省市 GDP 信息结构体
 typedef struct {
-    char province[10]; // 省市名称 (使用长度为 10 的字符数组存储)
-    float gdp;         // GDP 数据 (使用浮点数类型)
+    char province[10]; 
+    float gdp;         
 } KeyType;
 
 // GDP 表结构体
 typedef struct {
-    KeyType R[MAXSIZE]; // 存储省市 GDP 信息的数组
-    int length;         // 当前元素的个数
+    KeyType R[MAXSIZE]; 
+    int length;         
 } GDPTable;
 
 // ------------------------------------
@@ -35,17 +34,16 @@ void displaySortedData(const GDPTable* L);
 void runSystem(GDPTable* L);
 
 
-// -------- 5. 实践方案 (1) 数据导入函数 --------
-/**
- * @brief 从文件读取各省市 GDP 数据到 GDPTable 结构体中。
- * @param filename 文件路径字符串
- * @param L 指向 GDPTable 结构体的指针
+/*
+  从文件读取各省市 GDP 数据到 GDPTable 结构体中。
+  filename 文件路径字符串
+  L 指向 GDPTable 结构体的指针
  */
 void read_char(const char filename[], GDPTable* L) {
     FILE* fp;
     // 使用 "r" 模式打开文件进行读取
     if ((fp = fopen(filename, "r")) == NULL) {
-        printf("🚨 错误：无法打开文件 %s 或文件不存在。\n", filename);
+        printf("错误：无法打开文件 %s 或文件不存在。\n", filename);
         // 确保文件指针为 NULL
         fp = NULL;
         L->length = 0; // 长度设为0
@@ -55,13 +53,12 @@ void read_char(const char filename[], GDPTable* L) {
     L->length = 0;
 
     // 按行读取数据，直到文件末尾或达到最大存储容量
-    while (L->length < MAXSIZE &&
-        fscanf(fp, "%s %f", L->R[L->length].province, &L->R[L->length].gdp) == 2) {
+    while (L->length < MAXSIZE &&fscanf(fp, "%s %f", L->R[L->length].province, &L->R[L->length].gdp) == 2) {
         L->length++;
     }
 
     fclose(fp); // 关闭文件
-    printf("✅ 文件导入成功 (来自: %s)！共导入 %d 条记录。\n", filename, L->length);
+    printf("文件导入成功 (来自: %s)！共导入 %d 条记录。\n", filename, L->length);
 }
 // ------------------------------------
 
@@ -85,7 +82,7 @@ void displayMenu() {
 // 显示原始数据函数
 void displayOriginalData(const GDPTable* L) {
     if (L->length == 0) {
-        printf("⚠️ 警告：当前无数据，请先执行 '1: 数据导入'。\n");
+        printf("警告：当前无数据，请先执行 '1: 数据导入'。\n");
         return;
     }
     printf("\n--- 原始数据列表 (单位：亿元) ---\n");
@@ -106,13 +103,11 @@ void swap(KeyType* a, KeyType* b) {
 }
 
 
-// -------- 5. 实践方案 (2) 双轴快排函数 DPQuicksort --------
-/**
- * @brief 使用双轴快排算法对 GDP 数据进行降序排序。
- * （从大到小，即 gdp 最大的在前面）
- * @param arr 待排序的 KeyType 数组
- * @param left 待排序区间的起始下标
- * @param right 待排序区间的结束下标
+/*
+ 使用双轴快排算法对 GDP 数据进行降序排序。
+ arr 待排序的 KeyType 数组
+ left 待排序区间的起始下标
+ right 待排序区间的结束下标
  */
 void DPQuickSort(KeyType* arr, int left, int right) {
     if (left < right) {
@@ -172,7 +167,6 @@ void DPQuickSort(KeyType* arr, int left, int right) {
         DPQuickSort(arr, upper + 1, right);
     }
 }
-// ------------------------------------
 
 
 // 显示排序后数据函数
@@ -241,7 +235,9 @@ void runSystem(GDPTable* L) {
 
 // 主函数
 int main() {
-    // 初始化 GDPTable 结构体
+    //设置控制台输入输出编码为UTF-8
+    
+     // 初始化 GDPTable 结构体
     GDPTable L;
     L.length = 0; // 初始时数据长度为 0
 
@@ -251,6 +247,5 @@ int main() {
     // printf("\n按任意键退出...");
     // getchar(); 
     // getchar(); // 吸收上一个输入留下的换行符
-
     return 0;
 }
