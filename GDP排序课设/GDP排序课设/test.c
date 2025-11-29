@@ -4,9 +4,7 @@
 #include <string.h>
 #include<windows.h>
 
-// 宏定义：最大元素数量
 #define MAXSIZE 50 
-// 宏定义：数据文件名（请根据您的实际文件路径修改）
 #define DATA_FILE_PATH "E:\\gdpdata.txt" 
 
 // 省市 GDP 信息结构体
@@ -20,8 +18,6 @@ typedef struct {
     KeyType R[MAXSIZE]; 
     int length;         
 } GDPTable;
-
-// ------------------------------------
 
 
 // 函数声明
@@ -60,7 +56,7 @@ void read_char(const char filename[], GDPTable* L) {
     fclose(fp); // 关闭文件
     printf("文件导入成功 (来自: %s)！共导入 %d 条记录。\n", filename, L->length);
 }
-// ------------------------------------
+
 
 
 // 菜单显示函数
@@ -111,18 +107,20 @@ void swap(KeyType* a, KeyType* b) {
  */
 void DPQuickSort(KeyType* arr, int left, int right) {
     if (left < right) {
-        // 1. 选轴并确保 pivot1 <= pivot2
-        // arr[left] 为左轴 (pivot1)，arr[right] 为右轴 (pivot2)
-        if (arr[left].gdp > arr[right].gdp) {
-            swap(&arr[left], &arr[right]);
-        }
+        // 选轴并确保 pivot1 <= pivot2
         float pivot1 = arr[left].gdp;
         float pivot2 = arr[right].gdp;
 
-        // 2. 初始化指针
-        int lower = left + 1;    // lower 指向 pivot1 最终位置的右边
-        int upper = right - 1;   // upper 指向 pivot2 最终位置的左边
-        int index = left + 1;    // index 代表待考察区间起点，从 left+1 开始扫描
+        // 选择小的元素作为 pivot1，大的作为 pivot2
+        if (pivot1 < pivot2) {
+            swap(&arr[left], &arr[right]);
+            pivot1 = arr[left].gdp;
+            pivot2 = arr[right].gdp;
+        }
+
+        int lower = left + 1;
+        int upper = right - 1;
+        int index = left + 1;
 
         // 3. 划分过程
         // 待考察区间为 [index, upper]
@@ -135,7 +133,6 @@ void DPQuickSort(KeyType* arr, int left, int right) {
             }
             // 区间 3: > pivot2
             else if (arr[index].gdp < pivot2) {
-                // index 不移动，因为交换过来的元素 arr[upper] 还需要再次考察
                 swap(&arr[index], &arr[upper]);
                 upper--;
             }
@@ -145,29 +142,20 @@ void DPQuickSort(KeyType* arr, int left, int right) {
             }
         }
 
-        // 4. 放置轴元素
-        // 放置 pivot1
-        swap(&arr[left], &arr[lower] - 1);
-        lower--;
-        // 放置 pivot2
-        swap(&arr[right], &arr[upper] + 1);
-        upper++;
+        // 放置 pivot1 和 pivot2
+        swap(&arr[left], &arr[lower] - 1);  // 放置 pivot1
+        swap(&arr[right], &arr[upper] + 1); // 放置 pivot2
 
-        // 5. 递归排序三个子区间
-        // 递归 区间 1: < pivot1 的元素
-        DPQuickSort(arr, left, lower - 1);
+        // 递归排序三个子区间
+        DPQuickSort(arr, left, lower - 2);   // 递归左边的部分
+        DPQuickSort(arr, upper + 2, right);  // 递归右边的部分
 
-        // 递归 区间 2: >= pivot1 且 <= pivot2 的元素
-        // 注意：如果两个轴元素相等，则中间区间不需要再次排序
+        // 如果 pivot1 != pivot2，可以继续对中间的部分排序
         if (pivot1 != pivot2) {
-            DPQuickSort(arr, lower + 1, upper - 1);
+            DPQuickSort(arr, lower, upper);
         }
-
-        // 递归 区间 3: > pivot2 的元素
-        DPQuickSort(arr, upper + 1, right);
     }
 }
-
 
 // 显示排序后数据函数
 void displaySortedData(const GDPTable* L) {
@@ -199,7 +187,7 @@ void runSystem(GDPTable* L) {
     int choice;
     do {
         displayMenu();
-        // 容错处理：确保输入的是整数
+        // 确保输入的是整数
         if (scanf("%d", &choice) != 1) {
             // 清空输入缓冲区中的非法字符
             while (getchar() != '\n');
