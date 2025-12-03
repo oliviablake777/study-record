@@ -70,46 +70,68 @@ int main()
 	return 0;
 }*/
 
-#include<stdio.h>
+//#include<stdio.h>
+//int main()
+//{
+//	int n;
+//	int m;
+//	int r[1000011];
+//	int right = 0;
+//	int flag = 0;
+//	scanf("%d %d", &n, &m);
+//	for (int i = 1; i <=n; i++)
+//	{
+//		scanf("%d", &r[i]);
+//	}
+//	int mark = 0;
+//	while (m--)
+//	{
+//		mark++;
+//		int day, s, t;
+//		scanf("%d %d %d", &day, &s, &t);
+//		for (int i = s; i <= t; i++)
+//		{
+//			if (r[i]<day)
+//			{
+//				right = -1;
+//				flag = mark;
+//				break;
+//			}
+//			else
+//			{
+//				r[i] -= day;
+//			}
+//		}
+//		if (right == -1)
+//		{
+//			break;
+//		}
+//	}
+//	printf("%d\n", right);
+//	if (right == -1)
+//	{
+//		printf("%d\n", flag);
+//	}
+//}
+#include<iostream>
+using namespace std;
 int main()
 {
 	int n;
-	int m;
-	int r[10000];
-	int right = 0;
-	int flag = 0;
-	scanf("%d %d", &n, &m);
-	for (int i = 1; i <=n; i++)
+	cin >> n;
+	int num = 0;
+	for (int i = 1; i <= n; i++)
 	{
-		scanf("%d", &r[i]);
-	}
-	int mark = 0;
-	while (m--)
-	{
-		mark++;
-		int day, s, t;
-		scanf("%d %d %d", &day, &s, &t);
-		for (int i = s; i <= t; i++)
+		int flag = 1;
+		int x = i;
+		while (x)
 		{
-			if (r[i]<day)
-			{
-				right = -1;
-				flag = mark;
-				break;
-			}
-			else
-			{
-				r[i] -= day;
-			}
+			if ((x % 10) % 2 == 0 || (x / 10) % 2 != 0)
+				flag = 0;
+			x = x / 100;
 		}
-		if (right == -1)
-		{
-			break;
-		}
+		if (flag)
+			num++;
 	}
-	printf("%d\n", right);
-	if (right == -1)
-	{
-		printf("%d\n", flag);
-	}
+	cout << num << endl;
 }
