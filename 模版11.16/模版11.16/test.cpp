@@ -249,6 +249,6 @@ int main()
 	/*s6[10];
 	s6[0] = 'x';
 	cout << s6 << endl;*/
-
+	//test
 	return 0;
 }
