@@ -113,25 +113,90 @@ int main()
 //		printf("%d\n", flag);
 //	}
 //}
+//#include<iostream>
+//using namespace std;
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	int num = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		int flag = 1;
+//		int x = i;
+//		while (x)
+//		{
+//			if ((x % 10) % 2 == 0 || (x / 10) % 2 != 0)
+//				flag = 0;
+//			x = x / 100;
+//		}
+//		if (flag)
+//			num++;
+//	}
+//	cout << num << endl;
+//}
+//#include<iostream>
+//using namespace std;
+//int main()
+//{
+//	string s, t;
+//	cin >> s >> t;
+//	int lens = s.size();
+//	int lent = t.size();
+//	int min = lent;
+//	for (int i = 0; i < lent; i++)
+//	{
+//		for (int j = 0; j < lens; j++)
+//		{
+//			if (s[j] == t[i])
+//			{
+//				int num = i;
+//				int lefts = j;
+//				int leftt = i;
+//				while (leftt < 5)
+//				{
+//					if (s[lefts++] != t[leftt++])
+//						num++;
+//				}
+//				if (num < min)
+//					min = num;
+//			}
+//
+//		}
+//	}
+//	cout << min;
+//	return 0;
+//}
+
 #include<iostream>
+#include<string>
 using namespace std;
+
+string work(string s, int l)
+{
+	string s2(l,' ');
+	s2[0] = s[0];
+	for (int i = 1; i < l; i++)
+	{
+		if (s[i - 1] == s[i])
+			s2[i] ='0'+0;
+		else
+			s2[i] ='0'+1;
+	}
+	return s2;
+}
 int main()
 {
+	string s1;
 	int n;
-	cin >> n;
-	int num = 0;
-	for (int i = 1; i <= n; i++)
+	long long t;
+	cin >> n >> t;
+	cin >> s1;
+	while (t--)
 	{
-		int flag = 1;
-		int x = i;
-		while (x)
-		{
-			if ((x % 10) % 2 == 0 || (x / 10) % 2 != 0)
-				flag = 0;
-			x = x / 100;
-		}
-		if (flag)
-			num++;
+		s1 = work(s1, n);
 	}
-	cout << num << endl;
+	cout << s1 << endl;
+	return 0;
 }
+//enen
