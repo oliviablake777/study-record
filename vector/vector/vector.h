@@ -58,8 +58,8 @@ namespace xian
 		void swap(vector <T>& v)
 		{
 			std::swap(_start, v._start);
-			std::swap(_finish,v._finish);
-			std::swap(_end_of_shorage,v._end_of_shorage);
+			std::swap(_finish, v._finish);
+			std::swap(_end_of_shorage, v._end_of_shorage);
 		}
 		vector<T>& operator=(vector <T> v)
 		{
@@ -145,7 +145,7 @@ namespace xian
 		{
 			if (_finish == _end_of_shorage)
 			{
-				reserve(capacity() == 0 ? 4 :  capacity() * 2);
+				reserve(capacity() == 0 ? 4 : capacity() * 2);
 			}
 			*_finish = x;
 			_finish++;
@@ -293,4 +293,5 @@ namespace xian
 
 		print_vector(vd);
 	}
+}
 	
