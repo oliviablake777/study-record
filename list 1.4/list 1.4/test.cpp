@@ -30,7 +30,13 @@ void test_list1()
 	cout << s << endl;
 }
 
+#include"List.h"
+
+// 10:35
 int main()
 {
-	test_list1();
+
+	bit::test_list1();
+
+	return 0;
 }
