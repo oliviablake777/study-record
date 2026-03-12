@@ -4,57 +4,178 @@ enum Coluor
 	RED,
 	BLACK
 };
-template<class K,class V>
+template<class T>
 struct RBTreeNode
 {
-	pair<K,V> _kv;
-	RBTreeNode<K, V>* _left;
-	RBTreeNode<K, V>* _right;
-	RBTreeNode<K,V>* _parent;
+	T _data;
+	RBTreeNode<T>* _left;
+	RBTreeNode<T>* _right;
+	RBTreeNode<T>* _parent;
 	Coluor _col;
-	RBTreeNode(const pair<K, V>& kv)
-		:_kv(kv)
+	RBTreeNode(const T& data)
+		:_data(data)
 		,_left(nullptr)
 		,_right(nullptr)
 		,_parent(nullptr)
 	{ }
 
 };
-template<class K, class V>
+template<class T,class Ref,class Ptr>
+struct RBTreeIterator {
+	typedef RBTreeNode<T> Node;
+	typedef RBTreeIterator<T, Ref, Ptr> Self;
+	Node* _node;
+	Node* _root;
+	RBTreeIterator(Node* node, Node* root)
+		:_node(node)
+	    ,_root(root)
+	{}
+		Self operator++()
+		{
+			if (_node->_right)
+			{
+				//ÓÒ²»Îª¿Õ
+				Node* min = _node->_right;
+				while (min->_left)
+				{
+					min = min->_left;
+				}
+				_node = min;
+			}
+			else
+			{
+				//ÓÒÎª¿Õ
+				Node* cur = _node;
+				Node* parent = cur->_parent;
+				while (parent && cur == parent->_right)
+				{
+					cur = parent;
+					parent = cur->_parent;
+				}
+				_node = parent;
+			}
+			return *this;
+		}
+		Self operator--()
+		{
+			if (_node == nullptr)
+			{
+				Node* rightMost = _root;
+				while (rightMost&&rightMost->_right)
+				{
+					rightMost = rightMost->_right;
+				}
+				_node = rightMost;
+			}
+			else if (_node->_left)
+			{
+				Node* max = _node->_left;
+				while (max->_right)
+				{
+					max = max->_right;
+				}
+				_node = max;
+			}
+			else
+			{
+				Node* cur = _node;
+				Node* parent = cur->_parent;
+				while (parent && cur == parent->_left)
+				{
+					cur = parent;
+					parent = cur->_parent;
+				}
+				_node = parent;
+			}
+			return *this;
+		}
+		Ref operator*()
+		{
+			return _node->_data;
+		}
+
+		Ptr operator->()
+		{
+			return &_node->_data;
+		}
+
+		bool operator!= (const Self& s) const
+		{
+			return _node != s._node;
+		}
+
+		bool operator== (const Self& s) const
+		{
+			return _node == s._node;
+		}
+
+};
+template<class K, class T,class KeyOfT>
 class RBTree 
 {
-	typedef RBTreeNode<K, V> Node;
+	typedef RBTreeNode<T> Node;
 public:
-	bool Insert(const pair<K,V>& kv)
+	typedef RBTreeIterator<T, T&, T*> Iterator;
+	typedef RBTreeIterator<T, const T&, const T*> ConstIterator;
+	Iterator Begin()
+	{
+		Node* cur = _root;
+		while (cur && cur->_left)
+		{
+			cur = cur->_left;
+		}
+		return Iterator(cur, _root);
+	}
+	Iterator End()
+	{
+		return Iterator(nullptr, _root);
+	}
+	ConstIterator Begin() const
+	{
+		Node* cur = _root;
+		while (cur && cur->_left)
+		{
+			cur = cur->_left;
+		}
+		return ConstIterator(cur, _root);
+	}
+	ConstIterator End() const
+	{
+		return ConstIterator(nullptr, _root);
+	}
+
+	pair<Iterator, bool> Insert(const T& data)
 	{
 		if (_root == nullptr)
 		{
-			_root = new Node(kv);
+			_root = new Node(data);
 			_root->_col = BLACK;
-			return true;
+			return {Iterator(_root,_root),true};
 		}
+		KeyOfT kot;
 		Node* parent = nullptr;
 		Node* cur = _root;
 		while (cur)
 		{
-			if (cur->_kv.first < kv.first)
+			if (kot(cur->_data) < kot(data))
 			{
 				parent = cur;
 				cur = cur->_right;
 			}
-			else if (cur->_kv.first > kv.first)
+			else if (kot(cur->_data) > kot(data))
 			{
 				parent = cur;
 				cur = cur->_left;
 			}
 			else
 			{
-				return false;
+				return {Iterator(cur,_root),false};
 			}
 		}
-		cur = new Node(kv);
+		cur = new Node(data);
+		Node* newnode = cur;
 		cur->_col = RED;
-		if (cur->_kv.first < parent->_kv.first)
+		if (kot(data) < kot(parent->_data))
 		{
 			parent->_left = cur;
 		}
@@ -146,7 +267,7 @@ public:
 			}
 		}
 		_root->_col = BLACK;
-		return true;
+		return { Iterator(newnode,_root),true};
 	}
 	void RotateR(Node* parent)
 	{
@@ -232,11 +353,11 @@ public:
 		Node* cur = _root;
 		while (cur)
 		{
-			if (cur->_kv.first < key)
+			if (kot(cur->_data) < key)
 			{
 				cur = cur->_right;
 			}
-			else if (cur->_kv.first > key)
+			else if (kot(cur->_data) > key)
 			{
 				cur = cur->_left;
 			}
