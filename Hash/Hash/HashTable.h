@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include<string.h>
 enum State
 {
 	EXIST,
@@ -60,7 +61,7 @@ namespace open_address
 	{
 	public:
 		HashTable()
-			:_tables(_stl_next_prime(__stl_next_prime(0))
+			:_tables(__stl_next_prime(0))
 			, _n(0)
 		{
 		}
@@ -141,32 +142,276 @@ namespace open_address
 }
 namespace hash_bucket
 {
-	template<class K,class V>
+	template<class T>
 	struct HashNode
 	{
-		pair<K, V> _kv;
-		HashNode<K, V>* _next;
-		HashNode(const pair<K,V>& kv)
-			:_kv(kv)
-			,_next(nullptr)
-		{ }
-	};
-	template<class K, class V, class Hash = HashFunc<K>>
-	class HashTable
-	{
-		tppedef HashTable<K, V> Node;
-	public:
-		HashTable()
-			:_tables(11)
-			, n(0)
-		{ }
-		bool Insert(const pair<K, V>& kv)
-		{
+		T _data;
+		HashNode<T>* _next;
 
+		HashNode(const T& data)
+			:_data(data)
+			, _next(nullptr)
+		{
+		}
+	};
+	// 前置声明
+	template<class K, class T, class KeyOfT, class Hash>
+	class HashTable;
+
+	template<class K, class T, class Ref, class Ptr, class KeyOfT, class Hash>
+	struct HTIterator
+	{
+		typedef HashNode<T> Node;
+		typedef HashTable<K, T, KeyOfT, Hash> HT;
+		typedef HTIterator<K, T, Ref, Ptr, KeyOfT, Hash> Self;
+
+		Node* _node;
+		const HT* _ht;
+
+		HTIterator(Node* node, const HT* ht)
+			:_node(node)
+			, _ht(ht)
+		{
 		}
 
+		Ref operator*()
+		{
+			return _node->_data;
+		}
+
+		Ptr operator->()
+		{
+			return &_node->_data;
+		}
+
+		bool operator!=(const Self& s)
+		{
+			return _node != s._node;
+		}
+
+		// 16:46
+		Self& operator++()
+		{
+			if (_node->_next)
+			{
+				// 当前桶还有数据，走到当前桶下一个节点
+				_node = _node->_next;
+			}
+			else
+			{
+				// 当前桶走完了，找下一个不为空的桶
+				KeyOfT kot;
+				Hash hash;
+				size_t hashi = hash(kot(_node->_data)) % _ht->_tables.size();
+				++hashi;
+				while (hashi < _ht->_tables.size())
+				{
+					_node = _ht->_tables[hashi];
+
+					if (_node)
+						break;
+					else
+						++hashi;
+				}
+
+				// 所有桶都走完了，end()给的空标识的_node
+				if (hashi == _ht->_tables.size())
+				{
+					_node = nullptr;
+				}
+			}
+
+			return *this;
+		}
+
+	};
+
+	template<class K, class T, class KeyOfT, class Hash>
+	class HashTable
+	{
+		// 友元声明
+		template<class K, class T, class Ref, class Ptr, class KeyOfT, class Hash>
+		friend struct HTIterator;
+
+		typedef HashNode<T> Node;
+	public:
+		typedef HTIterator<K, T, T&, T*, KeyOfT, Hash> Iterator;
+
+		typedef HTIterator<K, T, const T&, const T*, KeyOfT, Hash> ConstIterator;
+
+		Iterator Begin()
+		{
+			if (_n == 0)
+				return End();
+
+			for (size_t i = 0; i < _tables.size(); i++)
+			{
+				Node* cur = _tables[i];
+				if (cur)
+				{
+					return Iterator(cur, this);
+				}
+			}
+
+			return End();
+		}
+
+		Iterator End()
+		{
+			return Iterator(nullptr, this);
+		}
+
+
+		ConstIterator Begin() const
+		{
+			if (_n == 0)
+				return End();
+
+			for (size_t i = 0; i < _tables.size(); i++)
+			{
+				Node* cur = _tables[i];
+				if (cur)
+				{
+					return ConstIterator(cur, this);
+				}
+			}
+
+			return End();
+		}
+
+		ConstIterator End() const
+		{
+			return ConstIterator(nullptr, this);
+		}
+
+		HashTable()
+			:_tables(__stl_next_prime(0))
+			, _n(0)
+		{
+		}
+
+		// 拷贝构造和赋值重载也需要
+
+		~HashTable()
+		{
+			for (size_t i = 0; i < _tables.size(); i++)
+			{
+				Node* cur = _tables[i];
+				while (cur)
+				{
+					Node* next = cur->_next;
+					delete cur;
+
+					cur = next;
+				}
+
+				_tables[i] = nullptr;
+			}
+		}
+
+		pair<Iterator, bool> Insert(const T& data)
+		{
+			KeyOfT kot;
+			Iterator it = Find(kot(data));
+			if (it != End())
+				return { it, false };
+
+			Hash hash;
+
+			// 负载因子 == 1时扩容
+			if (_n == _tables.size())
+			{
+				
+				vector<Node*> newTable(__stl_next_prime(_tables.size() + 1));
+				for (size_t i = 0; i < _tables.size(); i++)
+				{
+					Node* cur = _tables[i];
+					while (cur)
+					{
+						Node* next = cur->_next;
+						// 头插到新表
+						size_t hashi = hash(kot(cur->_data)) % newTable.size();
+						cur->_next = newTable[hashi];
+						newTable[hashi] = cur;
+
+						cur = next;
+					}
+
+					_tables[i] = nullptr;
+
+				}
+
+				_tables.swap(newTable);
+			}
+
+			size_t hashi = hash(kot(data)) % _tables.size();
+			// 头插
+			Node* newnode = new Node(data);
+			newnode->_next = _tables[hashi];
+			_tables[hashi] = newnode;
+			++_n;
+
+			return { Iterator(newnode, this), true };
+		}
+
+		Iterator Find(const K& key)
+		{
+			KeyOfT kot;
+			Hash hash;
+			size_t hashi = hash(key) % _tables.size();
+			Node* cur = _tables[hashi];
+			while (cur)
+			{
+				if (kot(cur->_data) == key)
+				{
+					return Iterator(cur, this);
+				}
+
+				cur = cur->_next;
+			}
+
+			return End();
+		}
+
+		bool Erase(const K& key)
+		{
+			KeyOfT kot;
+			Hash hash;
+			size_t hashi = hash(key) % _tables.size();
+			Node* prev = nullptr;
+			Node* cur = _tables[hashi];
+			while (cur)
+			{
+				if (kot(cur->_data) == key)
+				{
+					if (prev == nullptr)
+					{
+						// 头结点
+						_tables[hashi] = cur->_next;
+					}
+					else
+					{
+						// 中间节点
+						prev->_next = cur->_next;
+					}
+
+					delete cur;
+					--_n;
+
+					return true;
+				}
+				else
+				{
+					prev = cur;
+					cur = cur->_next;
+				}
+			}
+
+			return false;
+		}
 	private:
-		vector<Node*> _tables;
-		size_t _n;
+		vector<Node*> _tables; // 指针数组
+		size_t _n = 0;		   // 表中存储数据个数
+
 	};
 }

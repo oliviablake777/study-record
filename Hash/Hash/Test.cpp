@@ -121,33 +121,50 @@ void test_map1()
 	}
 }
 #include"HashTable.h"
+struct Date
+{
+	int _year;
+	int _month;
+	int _day;
 
+	Date(int year = 1, int month = 1, int day = 1)
+		:_year(year)
+		, _month(month)
+		, _day(day)
+	{
+	}
+
+	bool operator==(const Date& d)
+	{
+		return _year == d._year
+			&& _month == d._month
+			&& _day == d._day;
+	}
+};
+
+struct DateHashFunc
+{
+	size_t operator()(const Date& d)
+	{
+		size_t hash = 0;
+		hash += d._year;
+		hash *= 131;
+
+		hash += d._month;
+		hash *= 131;
+
+		hash += d._day;
+		hash *= 131;
+
+		return hash;
+	}
+};
+#include"UnorderedMap.h"
+#include"UnorderedSet.h"
 int main()
 {
-	//int a[] = { 19,30,52,63,11,22 };
-	//int a[] = { 19,30,5,36,13,20,21,12 };
-	//HashTable<int, int> ht;
-	//for (auto e : a)
-	//{
-	//	ht.Insert({ e, e });
-	//}
+	bit::test_set1();
+	bit::test_map1();
 
-	////ht.Insert({ 15, 15 });
-
-	//ht.Erase(30);
-	//if (ht.Find(20))
-	//{
-	//	cout << "找到了" << endl;
-	//}
-
-	//if (ht.Find(30))
-	//{
-	//	cout << "找到了" << endl;
-	//}
-	//else
-	//{
-	//	cout << "没有找到" << endl;
-	//}
-
-	//return 0;
+	return 0;
 }
